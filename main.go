@@ -13,7 +13,7 @@ import (
 
 func main() {
 	var port int
-	flag.IntVar(&port, "web-port", 8080, "Port the webserver should launch with")
+	flag.IntVar(&port, "port", 8080, "Port the webserver should launch with")
 	flag.Parse()
 	log.Printf("Staring application on port %d...\n", port)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
