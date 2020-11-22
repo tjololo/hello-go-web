@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -13,17 +14,22 @@ import (
 
 func main() {
 	var port int
-	var response string
+	var responseString string
 	flag.IntVar(&port, "port", 8080, "Port the webserver should launch with")
-	flag.StringVar(&response, "response", "Hello from go code", "Content of respone element")
+	flag.StringVar(&responseString, "response", "Hello from go code", "Content of respone element")
 	flag.Parse()
 	log.Printf("Staring application on port %d...\n", port)
 	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Got a request")
-		log.Println(fmt.Sprintf("{\"respons\":\"%s\"}\n", response))
+		response := WebResponse{
+			Response: responseString,
+			Info:     fmt.Sprintf("Application info; %s", os.Getenv("APP_INFO")),
+		}
+		responseBytes, _ := json.Marshal(response)
+		log.Println(fmt.Sprintf("%v", response))
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
-		w.Write([]byte(fmt.Sprintf("{\"respons\":\"%s\"}\n", response)))
+		w.Write(responseBytes)
 	})
 
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
@@ -42,4 +48,10 @@ func main() {
 	log.Println("Shutdown received, exiting...")
 
 	server.Shutdown(context.Background())
+}
+
+//WebResponse struct returned from webendpoint
+type WebResponse struct {
+	Response string `json:"response"`
+	Info     string `json:"info"`
 }
