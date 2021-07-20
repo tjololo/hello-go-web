@@ -1,4 +1,4 @@
-FROM golang:1.10
+FROM golang:1.16
 WORKDIR /go/src/github.com/tjololo/app/
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build .
