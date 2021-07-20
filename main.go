@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sort"
 	"syscall"
 )
 
@@ -54,4 +55,13 @@ func main() {
 type WebResponse struct {
 	Response string `json:"response"`
 	Info     string `json:"info"`
+}
+
+
+//SortWebResponse by Info
+func SortWebResponseByInfo(responses []WebResponse) []WebResponse {
+	sort.Slice(responses, func(i, j int) bool {
+		return responses[i].Info < responses[j].Info
+	})
+	return responses
 }
