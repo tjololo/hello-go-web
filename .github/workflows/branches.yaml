@@ -16,10 +16,10 @@ jobs:
     steps:
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v6.0.0
+      uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
     - name: Set up Go
-      uses: actions/setup-go@v6.1.0
+      uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
       with:
         go-version-file: go.mod
 
@@ -35,13 +35,13 @@ jobs:
       run: go test -v .
 
     - name: GoVulncheck
-      uses: golang/govulncheck-action@v1.0.4
+      uses: golang/govulncheck-action@b625fbe08f3bccbe446d94fbf87fcc875a4f50ee # v1.0.4
       with:
         go-version-file: go.mod
         repo-checkout: false
     - name: Docker build
       id: docker_build
-      uses: docker/build-push-action@v6.18.0
+      uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
       with:
         push: false
         tags: ${{ github.repository }}:test
