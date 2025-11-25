@@ -91,7 +91,10 @@ func errorHandler(w http.ResponseWriter, r *http.Request) {
 	if rNumber < serverErrorRate {
 		http.Error(w, fmt.Sprintf("500 error returned as %d < %d", rNumber, serverErrorRate), http.StatusInternalServerError)
 	} else {
-		w.Write([]byte(fmt.Sprintf("OK as %d >= %d", rNumber, serverErrorRate)))
+		_, err = w.Write([]byte(fmt.Sprintf("OK as %d >= %d", rNumber, serverErrorRate)))
+		if err != nil {
+			log.Printf("Error writing response: %v\n", err)
+		}
 	}
 }
 
