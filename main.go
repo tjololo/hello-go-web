@@ -2,18 +2,18 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
-	"math/rand"
+	"math/big"
 	"net/http"
 	"os"
 	"os/signal"
 	"sort"
 	"strconv"
 	"syscall"
-	"time"
 )
 
 var responseString string
@@ -24,7 +24,7 @@ func main() {
 	flag.StringVar(&responseString, "response", "Hello from go code", "Content of respone element")
 	flag.Parse()
 	log.Printf("Staring application on port %d...\n", port)
-	
+
 	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/errors", errorHandler)
 
@@ -43,17 +43,20 @@ func main() {
 
 	log.Println("Shutdown received, exiting...")
 
-	server.Shutdown(context.Background())
+	err := server.Shutdown(context.Background())
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
-//WebResponse struct returned from webendpoint
+// WebResponse struct returned from webendpoint
 type WebResponse struct {
 	Response string `json:"response"`
 	Info     string `json:"info"`
 }
 
-
-//SortWebResponse by Info
+// SortWebResponse by Info
 func SortWebResponseByInfo(responses []WebResponse) []WebResponse {
 	sort.Slice(responses, func(i, j int) bool {
 		return responses[i].Info < responses[j].Info
@@ -68,16 +71,23 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 		Info:     fmt.Sprintf("Application info; %s", os.Getenv("APP_INFO")),
 	}
 	responseBytes, _ := json.Marshal(response)
-	log.Println(fmt.Sprintf("%v", response))
+	log.Printf("%v\n", response)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(200)
-	w.Write(responseBytes)
+	_, err := w.Write(responseBytes)
+	if err != nil {
+		log.Printf("Error writing response: %v\n", err)
+	}
 }
 
 func errorHandler(w http.ResponseWriter, r *http.Request) {
-	rand.Seed(time.Now().UnixNano())
 	serverErrorRate := readIntParam("500", r)
-	rNumber := rand.Intn(101)
+	nBig, err := rand.Int(rand.Reader, big.NewInt(101))
+	if err != nil {
+		http.Error(w, "Failed to generate random number", http.StatusInternalServerError)
+		return
+	}
+	rNumber := int(nBig.Int64())
 	if rNumber < serverErrorRate {
 		http.Error(w, fmt.Sprintf("500 error returned as %d < %d", rNumber, serverErrorRate), http.StatusInternalServerError)
 	} else {
