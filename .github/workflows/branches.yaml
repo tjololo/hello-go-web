@@ -34,6 +34,10 @@ jobs:
     - name: Test
       run: go test -v .
 
+    - name: GoVulncheck
+      uses: golang/govulncheck-action@v1
+      with:
+        go-version-file: go.mod
     - name: Docker build
       id: docker_build
       uses: docker/build-push-action@v6.18.0
