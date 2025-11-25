@@ -1,3 +1,3 @@
 module github.com/tjololo/hello-go-web
 
-go 1.17
+go 1.25
