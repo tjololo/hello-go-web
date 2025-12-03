@@ -8,7 +8,3 @@ Simple go web server returning "Hello from go code"
 go build .
 ./hello-go-web --port=<portnumber>
 ```
-
-
-
-
