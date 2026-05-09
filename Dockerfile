@@ -1,4 +1,4 @@
-FROM golang:1.25@sha256:698183780de28062f4ef46f82a79ec0ae69d2d22f7b160cf69f71ea8d98bf25d
+FROM golang:1.25@sha256:c0a2bd0756d92462a0d449124b039100ce447ebf69dc6c80a6d877503b36935e
 WORKDIR /go/src/github.com/tjololo/app/
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build .
