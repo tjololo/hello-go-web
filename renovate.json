@@ -35,6 +35,10 @@
       "matchPackageNames": ["golang", "go"],
       "groupName": "go version",
       "groupSlug": "go-version"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "semanticCommitType": "chore"
     }
   ]
 }
