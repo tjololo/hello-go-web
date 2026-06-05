@@ -27,6 +27,12 @@
         "github-actions"
       ],
       "pinDigests": true
+    },
+    {
+      "matchManagers": ["dockerfile", "gomod"],
+      "matchPackageNames": ["golang", "go"],
+      "groupName": "go version",
+      "groupSlug": "go-version"
     }
   ]
 }
