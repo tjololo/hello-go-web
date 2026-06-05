@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 )
 
@@ -38,8 +37,7 @@ func TestHelloHandler(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			responseString = tt.responseString
-			os.Setenv("APP_INFO", tt.appInfo)
-			defer os.Unsetenv("APP_INFO")
+			t.Setenv("APP_INFO", tt.appInfo)
 
 			req := httptest.NewRequest(http.MethodGet, "/hello", nil)
 			w := httptest.NewRecorder()
