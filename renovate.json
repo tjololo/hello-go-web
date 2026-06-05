@@ -19,7 +19,9 @@
       "groupName": "{{manager}} non-major dependencies",
       "matchPackageNames": ["*"],
       "matchUpdateTypes": ["minor", "patch"],
-      "groupSlug": "{{manager}}-minor-patch"
+      "groupSlug": "{{manager}}-minor-patch",
+      "automerge": true,
+      "platformAutomerge": true
     },
     {
       "matchManagers": [
