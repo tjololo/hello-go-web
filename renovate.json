@@ -5,6 +5,7 @@
     ":semanticCommitTypeAll(deps)",
     ":semanticCommitScopeDisabled"
   ],
+  "semanticCommits": "enabled",
   "rebaseWhen": "conflicted",
   "postUpdateOptions": [
     "gomodTidy"
@@ -36,7 +37,7 @@
       "groupSlug": "go-version"
     },
     {
-      "matchManagers": ["github-actions"],
+      "matchManagers": ["github-actions", "dockerfile"],
       "semanticCommitType": "chore"
     }
   ]
