@@ -17,9 +17,8 @@
         "github-actions"
       ],
       "groupName": "{{manager}} non-major dependencies",
-      "matchPackageNames": ["*"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupSlug": "{{manager}}-minor-patch",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupSlug": "{{manager}}-non-major",
       "automerge": true,
       "platformAutomerge": true
     },
